@@ -1,0 +1,34 @@
+
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Store {
+  id          String @id @default(uuid())
+  name        String
+  userId      String
+  billboards  Billboard[] @relation("StoreToBillboard") 
+  createAt    DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
+model Billboard {
+  id        String @id @default(uuid())
+  label     String
+  imageUrl  String
+  publicId  String
+  store     Store @relation("StoreToBillboard", fields:[storeId], references: [id])
+  storeId   String
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([storeId])
+}
