@@ -11,6 +11,10 @@ export const billboardFormSchema = z.object({
   imageUrl: z.string().nonempty("No image uploaded"),
   publicId: z.string().nonempty()
 })
+export const categoryFormSchema = z.object({
+  name: z.string().min(1),
+  billboardId: z.string().min(1),
+})
 
 
 export async function POST(req: Request) {

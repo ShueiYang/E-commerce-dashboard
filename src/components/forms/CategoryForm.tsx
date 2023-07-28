@@ -21,7 +21,6 @@ import {
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/alertModal";
 import useSubmitFormAction from "@/hooks/useSubmitFormAction";
-import { usePublicIdStore } from "@/hooks/useStore";
 import {
   Select, 
   SelectContent, 
@@ -31,11 +30,11 @@ import {
 } from "@/components/ui/select";
 
 
-export const formSchema = z.object({
+const categorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   billboardId: z.string().min(1),
 })
-export type CategoryFormValue = z.infer<typeof formSchema>
+export type CategoryFormValue = z.infer<typeof categorySchema>
 
 interface CategoryFormProps {
   initialData: Category | null
@@ -49,8 +48,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const params = useParams();
   // custom hook
-  const { publicId } = usePublicIdStore();
-  const { loading, onSubmit, onDelete } = useSubmitFormAction();
+  const { loading, onSubmit, onDelete } = useSubmitFormAction("Category");
 
   const [open, setOpen] = useState(false);
  
@@ -60,11 +58,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const actionBtn = initialData ? "Save changes" : "Create" 
   
   const apiRoute = initialData 
-    ? `/api/${params.storeId}/billboards/${params.billboardId}` 
-    : `/api/${params.storeId}/billboards`
+    ? `/api/${params.storeId}/categories/${params.categoryId}` 
+    : `/api/${params.storeId}/categories`
 
   const methods = useForm<CategoryFormValue>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(categorySchema),
     defaultValues: initialData || {
       name: "",
       billboardId: "",
@@ -73,7 +71,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   // destructure useForm to retrieve methods from ReactHookForm api
   const { 
     handleSubmit, 
-    setValue, 
     formState: {
       isSubmitting
     }
@@ -85,9 +82,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       <AlertModal 
         isOpen={open}
         onClose={()=> {setOpen(false)}}
-        onConfirm={()=> {onDelete(apiRoute, "Billboard")}}
+        onConfirm={()=> {onDelete(apiRoute)}}
         loading={loading}
-        // label={initialData?.label}
+        label={initialData?.name}
       />
       <div className="flex items-center justify-between">
         <Heading

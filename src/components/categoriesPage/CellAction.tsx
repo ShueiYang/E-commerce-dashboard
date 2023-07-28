@@ -25,17 +25,17 @@ const CellAction: React.FC<CellActionProps> = ({data}) => {
   const router = useRouter();
   const params = useParams();
 
-  const { loading, onDelete } = useSubmitFormAction();
+  const { loading, onDelete } = useSubmitFormAction("Category");
   const [ open, setOpen ] = useState(false);
 
-  const apiRoute = `/api/${params.storeId}/billboards/${data.id}` 
+  const apiRoute = `/api/${params.storeId}/categories/${data.id}` 
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id)
     toast.success("Category Id copied to the clipboard")
   }
   const handleDelete = async () => {
-    await onDelete(apiRoute, "The billboard is")
+    await onDelete(apiRoute)
     setOpen(false)
   }
 
@@ -46,7 +46,7 @@ const CellAction: React.FC<CellActionProps> = ({data}) => {
         onClose={()=> {setOpen(false)}}
         onConfirm={handleDelete}
         loading={loading}
-        // label={data.label} 
+        label={data.name} 
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

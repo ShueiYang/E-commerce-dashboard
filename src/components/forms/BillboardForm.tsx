@@ -25,12 +25,12 @@ import useSubmitFormAction from "@/hooks/useSubmitFormAction";
 import { usePublicIdStore } from "@/hooks/useStore";
 
 
-export const formSchema = z.object({
+const billboardSchema = z.object({
   label: z.string().min(1, "Label name is required"),
   imageUrl: z.string().nonempty("No image uploaded"),
   publicId: z.string().nonempty()
 })
-export type BillboardFormValue = z.infer<typeof formSchema>
+export type BillboardFormValue = z.infer<typeof billboardSchema>
 
 interface BillboardFormProps {
   initialData: Billboard | null
@@ -43,7 +43,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
   const params = useParams();
   // custom hook
   const { publicId } = usePublicIdStore();
-  const { loading, onSubmit, onDelete } = useSubmitFormAction();
+  const { loading, onSubmit, onDelete } = useSubmitFormAction("Billboard");
 
   const [open, setOpen] = useState(false);
  
@@ -57,11 +57,11 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
     : `/api/${params.storeId}/billboards`
 
   const methods = useForm<BillboardFormValue>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(billboardSchema),
     defaultValues: initialData || {
       label: "",
       imageUrl: "",
-      publicId: ""
+      publicId: "",
     }
   })
   // destructure useForm to retrieve methods from ReactHookForm api
@@ -79,7 +79,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
       <AlertModal 
         isOpen={open}
         onClose={()=> {setOpen(false)}}
-        onConfirm={()=> {onDelete(apiRoute, "Billboard")}}
+        onConfirm={()=> {onDelete(apiRoute)}}
         loading={loading}
         label={initialData?.label}
       />

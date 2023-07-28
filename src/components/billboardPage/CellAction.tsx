@@ -25,7 +25,7 @@ const CellAction: React.FC<CellActionProps> = ({data}) => {
   const router = useRouter();
   const params = useParams();
 
-  const { loading, onDelete } = useSubmitFormAction();
+  const { loading, onDelete } = useSubmitFormAction("Billboard");
   const [ open, setOpen ] = useState(false);
 
   const apiRoute = `/api/${params.storeId}/billboards/${data.id}` 
@@ -35,7 +35,7 @@ const CellAction: React.FC<CellActionProps> = ({data}) => {
     toast.success("Billboard Id copied to the clipboard")
   }
   const handleDelete = async () => {
-    await onDelete(apiRoute, "The billboard is")
+    await onDelete(apiRoute)
     setOpen(false)
   }
 

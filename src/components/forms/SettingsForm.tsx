@@ -38,7 +38,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
   const params = useParams();
   // custom hook
   const origin = useOrigin();
-  const { loading, onSubmit, onDelete } = useSubmitFormAction();
+  const { loading, onSubmit, onDelete } = useSubmitFormAction("Store");
 
   const [open, setOpen] = useState(false);
 
@@ -57,7 +57,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
       <AlertModal 
         isOpen={open}
         onClose={()=> {setOpen(false)}}
-        onConfirm={()=> {onDelete(apiRoute, "Store")}}
+        onConfirm={()=> {onDelete(apiRoute)}}
         loading={loading}
       />
       <div className="flex items-center justify-between">
