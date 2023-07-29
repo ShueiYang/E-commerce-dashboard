@@ -13,3 +13,7 @@ export interface CategoryParams {
     storeId: string
   }
 }
+
+export interface ThemeParams {
+  params: { themeId: string }
+}

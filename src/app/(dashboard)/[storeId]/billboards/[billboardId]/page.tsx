@@ -1,10 +1,12 @@
+import { BillboardParams } from "@root/common.type";
 import { prisma } from "@/lib/prisma";
 import BillboardForm from "@/components/forms/BillboardForm";
-import { BillboardParams } from "@/app/(dashboard)/[storeId]/layout";
 
 
-const BillboardFormPage = async ({params}: BillboardParams) => {
-
+export default async function BillboardPage({
+  params 
+}: BillboardParams
+) {
   const billboard = await prisma.billboard.findUnique({
     where: {
       id: params.billboardId
@@ -14,10 +16,8 @@ const BillboardFormPage = async ({params}: BillboardParams) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <BillboardForm initialData={billboard}/>
+        <BillboardForm initialData={billboard} />
       </div>
     </div>
-  )
-}
-
-export default BillboardFormPage;
+  );
+};

@@ -1,13 +1,8 @@
-import { z } from "zod";
 import { NextResponse } from "next/server";
-import { CategoryParams } from "@/app/(dashboard)/[storeId]/layout";
+import { CategoryParams } from "@root/common.type";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
-
-const updateFormSchema = z.object({
-  name: z.string().optional(),
-  billboardId: z.string().optional(),
-})
+import { categoryFormSchema } from "@/validator/schemaValidation";
 
 
 export async function GET(req: Request, {
@@ -41,7 +36,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
     // Zod safe validation on the backend
-    const reqBodyValidation = updateFormSchema.safeParse(await req.json())
+    const reqBodyValidation = categoryFormSchema.safeParse(await req.json())
 
     if(!userId) {
       return new Response("Unauthenticated", { status: 401})  

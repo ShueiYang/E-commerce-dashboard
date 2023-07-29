@@ -1,8 +1,8 @@
+import { StoreParams } from "@root/common.type";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import SettingsForm from "@/components/forms/SettingsForm";
-import { StoreParams } from "@/app/(dashboard)/[storeId]/layout";
 
 
 

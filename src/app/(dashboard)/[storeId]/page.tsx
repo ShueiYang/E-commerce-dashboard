@@ -1,19 +1,18 @@
 import { prisma } from "@/lib/prisma";
-import { StoreParams } from "./layout";
+import { StoreParams } from "@root/common.type";
 
 
-
-const DashboardPage: React.FC<StoreParams> = async ({params}) => {
-
+export default async function DashboardPage({
+  params 
+}: StoreParams
+) {
   const store = await prisma.store.findFirst({
     where: {
       id: params.storeId
     }
-  })
+  });
 
   return (
     <div>Dashboard active Store: {store?.name}</div>
-  )
-}
-
-export default DashboardPage;
+  );
+};

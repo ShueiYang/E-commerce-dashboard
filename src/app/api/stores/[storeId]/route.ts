@@ -1,7 +1,7 @@
-import { StoreParams } from "@/app/(dashboard)/[storeId]/layout";
+import { StoreParams } from "@root/common.type";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
-import { storeFormSchema } from "@/app/api/stores/route";
+import { storeFormSchema } from "@/validator/schemaValidation";
 import { NextResponse } from "next/server";
 
 

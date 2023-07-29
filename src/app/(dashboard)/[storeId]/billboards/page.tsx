@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 
 import { Billboard } from "@prisma/client";
-import { StoreParams } from "@/app/(dashboard)/[storeId]/layout";
+import { StoreParams } from "@root/common.type";
 import { BillboardColumn } from "@/components/billboardPage/Columns";
 import BillboardClient from "@/components/billboardPage/BillboardClient";
 

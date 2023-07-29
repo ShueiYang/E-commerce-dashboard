@@ -1,28 +1,29 @@
 import { NextResponse } from "next/server";
-import { BillboardParams, StoreParams } from "@root/common.type";
+import { StoreParams, ThemeParams } from "@root/common.type";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
-import { updateBillboardSchema } from "@/validator/schemaValidation";
+import { themeFormSchema } from "@/validator/schemaValidation";
 
 
-export async function GET(
-  req: Request,
-  { params }: BillboardParams
-) {
+export async function GET(req: Request, {
+  params 
+}: {
+  params: { themeId: string }
+}) {
   try {
-    if(!params.billboardId) {
-      return new Response("Billboard ID is required", { status: 400}) 
+    if(!params.themeId) {
+      return new Response("Theme ID is required", { status: 400}) 
     }
 
-    const billboard = await prisma.billboard.findUnique({
+    const theme = await prisma.theme.findUnique({
       where: {
-        id: params.billboardId,
+        id: params.themeId,
       },
     })
-    return NextResponse.json(billboard, { status: 200})
+    return NextResponse.json(theme, { status: 200})
     
   } catch (err) {
-    console.error("[BILLBOARD_GET]", err);
+    console.error("[THEME_GET]", err);
     return new Response("Internal Error", { status: 500}) 
   }
 }
@@ -30,20 +31,20 @@ export async function GET(
 
 export async function PATCH(
   req: Request, 
-  { params }: StoreParams & BillboardParams
+  { params }: StoreParams & ThemeParams
 ) {
   try {
     const { userId } = auth();
     // Zod safe validation on the backend
-    const reqBodyValidation = updateBillboardSchema.safeParse(await req.json())
+    const reqBodyValidation = themeFormSchema.safeParse(await req.json())
 
     if(!userId) {
       return new Response("Unauthenticated", { status: 401})  
     }
-    if(!reqBodyValidation.success || !params.billboardId) {
+    if(!reqBodyValidation.success || !params.themeId) {
       return new Response("Invalid form or missing params", { status: 400}) 
     }
-    const { label, imageUrl, publicId } = reqBodyValidation.data;
+    const { name, value } = reqBodyValidation.data;
    
     const userStoreFound = await prisma.store.findFirst({
       where: {
@@ -55,21 +56,20 @@ export async function PATCH(
       return new Response("Unauthorize", { status: 403}) 
     }
 
-    const billboard = await prisma.billboard.updateMany({
+    const theme = await prisma.theme.updateMany({
       where: {
-        id: params.billboardId
+        id: params.themeId
       },
       data: {
-        label,
-        imageUrl,
-        publicId,
+        name,
+        value,
       }
     })
     
-    return NextResponse.json(billboard, { status: 200})
+    return NextResponse.json(theme, { status: 200})
     
   } catch (err) {
-    console.error("[BILLBOARD_PATCH]", err);
+    console.error("[THEME_PATCH]", err);
     return new Response("Internal Error", { status: 500}) 
   }
 }
@@ -77,7 +77,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: StoreParams & BillboardParams
+  { params }: StoreParams & ThemeParams
 ) {
   try {
     const { userId } = auth();
@@ -85,8 +85,8 @@ export async function DELETE(
     if(!userId) {
       return new Response("Unauthorize", { status: 401})  
     }
-    if(!params.billboardId) {
-      return new Response("Billboard ID is required", { status: 400}) 
+    if(!params.themeId) {
+      return new Response("Category ID is required", { status: 400}) 
     }
 
     const userStoreFound = await prisma.store.findFirst({
@@ -99,15 +99,15 @@ export async function DELETE(
       return new Response("Unauthorize", { status: 403}) 
     }
 
-    const billboard = await prisma.billboard.deleteMany({
+    const theme = await prisma.theme.deleteMany({
       where: {
-        id: params.billboardId,
+        id: params.themeId,
       },
     })
-    return NextResponse.json(billboard, { status: 200})
+    return NextResponse.json(theme, { status: 200})
     
   } catch (err) {
-    console.error("[BILLBOARD_DELETE]", err);
+    console.error("[THEME_DELETE]", err);
     return new Response("Internal Error", { status: 500}) 
   }
 }

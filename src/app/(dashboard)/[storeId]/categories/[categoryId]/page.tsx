@@ -1,11 +1,13 @@
+import { CategoryParams } from "@root/common.type";
 import { prisma } from "@/lib/prisma";
 import CategoryForm from "@/components/forms/CategoryForm";
-import { CategoryParams } from "@/app/(dashboard)/[storeId]/layout";
 import { getBillboards } from "@/app/(dashboard)/[storeId]/billboards/page";
 
 
-const CategoryPage = async ({params}: CategoryParams) => {
-
+ export default async function CategoryPage({
+  params 
+}: CategoryParams
+) {
   const category = await prisma.category.findUnique({
     where: {
       id: params.categoryId
@@ -17,13 +19,10 @@ const CategoryPage = async ({params}: CategoryParams) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <CategoryForm 
+        <CategoryForm
           initialData={category}
-          billboards={billboards}
-        />
+          billboards={billboards} />
       </div>
     </div>
-  )
-}
-
-export default CategoryPage;
+  );
+};

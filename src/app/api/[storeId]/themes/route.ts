@@ -2,14 +2,14 @@ import { NextResponse } from "next/server";
 import { StoreParams } from "@root/common.type";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
-import { billboardFormSchema } from "@/validator/schemaValidation";
+import { themeFormSchema } from "@/validator/schemaValidation";
 
 
 export async function POST(req: Request, {params}: StoreParams) {
   try {
     const { userId } = auth();
     // Zod safe validation on the backend
-    const reqBodyValidation = billboardFormSchema.safeParse(await req.json());
+    const reqBodyValidation = themeFormSchema.safeParse(await req.json());
   
     if(!userId) {
       return new Response("Unauthenticated", { status: 401})  
@@ -17,7 +17,7 @@ export async function POST(req: Request, {params}: StoreParams) {
     if(!reqBodyValidation.success || !params.storeId) {
       return new Response("Invalid form or missing params", { status: 400}) 
     }
-    const { label, imageUrl, publicId } = reqBodyValidation.data;
+    const { name, value } = reqBodyValidation.data;
 
     const userStoreFound = await prisma.store.findFirst({
       where: {
@@ -29,19 +29,18 @@ export async function POST(req: Request, {params}: StoreParams) {
       return new Response("Unauthorize", { status: 403}) 
     }
 
-    const billboard = await prisma.billboard.create({
+    const theme = await prisma.theme.create({
       data: {
-        label,
-        imageUrl,
-        publicId,
+        name,
+        value,
         storeId: params.storeId
       }
     })
     
-    return NextResponse.json(billboard, { status: 201})
+    return NextResponse.json(theme, { status: 201})
     
   } catch (err) {
-    console.error("[BILLBOARD_POST]", err);
+    console.error("[THEMES_POST]", err);
     return new Response("Internal Error", { status: 500}) 
   }
 }
@@ -53,16 +52,16 @@ export async function GET(req: Request, {params}: StoreParams) {
       return new Response("StoreID is required", { status: 400}) 
     }
 
-    const billboardResults = await prisma.billboard.findMany({
+    const themeResults = await prisma.theme.findMany({
       where: {
         storeId: params.storeId
       }
     })
 
-    return NextResponse.json(billboardResults, { status: 200})
+    return NextResponse.json(themeResults, { status: 200})
     
   } catch (err) {
-    console.error("[BILLBOARDS_GET]", err);
+    console.error("[THEMES_GET]", err);
     return new Response("Internal Error", { status: 500}) 
   }
 }

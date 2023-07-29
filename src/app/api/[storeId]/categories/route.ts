@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { StoreParams } from "@/app/(dashboard)/[storeId]/layout";
+import { StoreParams } from "@root/common.type";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
-import { categoryFormSchema } from "@/app/api/stores/route";
+import { categoryFormSchema } from "@/validator/schemaValidation";
 
 
 export async function POST(req: Request, {params}: StoreParams) {

@@ -1,20 +1,7 @@
-import { z } from "zod";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
+import { storeFormSchema } from "@/validator/schemaValidation";
 import { prisma } from "@/lib/prisma";
-
-export const storeFormSchema = z.object({
-  name: z.string().min(1)
-})
-export const billboardFormSchema = z.object({
-  label: z.string().min(1),
-  imageUrl: z.string().nonempty("No image uploaded"),
-  publicId: z.string().nonempty()
-})
-export const categoryFormSchema = z.object({
-  name: z.string().min(1),
-  billboardId: z.string().min(1),
-})
 
 
 export async function POST(req: Request) {

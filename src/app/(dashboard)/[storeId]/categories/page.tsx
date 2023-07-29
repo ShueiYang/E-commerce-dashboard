@@ -2,9 +2,9 @@ import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 
 import { Prisma } from "@prisma/client";
-import { StoreParams } from "@/app/(dashboard)/[storeId]/layout";
+import { StoreParams } from "@root/common.type";
 import { CategorieColumn } from "@/components/categoriesPage/Columns";
-import CategoriesClient from "@/components/categoriesPage/CategoriesClient";
+import CategoryClient from "@/components/categoriesPage/CategoryClient";
 
 type CategoryData = Prisma.CategoryGetPayload<{include: {billboard: true}}>
 
@@ -49,7 +49,7 @@ export default async function CategoriesPage({
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <CategoriesClient data={formattedCategories} />
+        <CategoryClient data={formattedCategories} />
       </div>
     </div>
   );

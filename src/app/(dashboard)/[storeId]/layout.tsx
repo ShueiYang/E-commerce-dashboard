@@ -1,20 +1,8 @@
+import { StoreParams } from "@root/common.type";
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
-
-export interface StoreParams {
-  params: { storeId: string }
-}
-export interface BillboardParams {
-  params: { billboardId: string }
-}
-export interface CategoryParams {
-  params: { 
-    categoryId: string 
-    storeId: string
-  }
-}
 
 
 export default async function DashboardLayout({
@@ -22,7 +10,8 @@ export default async function DashboardLayout({
   params
 }: {
   children: React.ReactNode,
-} & StoreParams) {
+} & StoreParams
+) {
   const { userId } = auth();
 
   if(!userId) {
