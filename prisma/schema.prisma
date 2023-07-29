@@ -17,6 +17,7 @@ model Store {
   userId      String
   billboards  Billboard[] @relation("StoreToBillboard") 
   categories  Category[] @relation("StoreToCategory")
+  themes      Theme[] @relation("StoreToTheme")
   createAt    DateTime @default(now())
   updateAt    DateTime @updatedAt
 }
@@ -47,4 +48,16 @@ model Category {
 
   @@index([storeId])
   @@index([billboardId])
+}
+
+model Theme {
+  id        String @id @default(uuid())
+  name      String
+  value     String
+  store     Store @relation("StoreToTheme", fields: [storeId], references: [id])
+  storeId   String
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([storeId])
 }
