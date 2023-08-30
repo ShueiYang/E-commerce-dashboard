@@ -1,4 +1,4 @@
-import { CategoryParams } from "@root/common.type";
+import { CategoryParams } from "@root/common.types";
 import { prisma } from "@/lib/prisma";
 import CategoryForm from "@/components/forms/CategoryForm";
 import { getBillboards } from "@/app/(dashboard)/[storeId]/billboards/page";

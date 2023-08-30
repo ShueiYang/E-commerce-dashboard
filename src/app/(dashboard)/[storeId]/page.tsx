@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { StoreParams } from "@root/common.type";
+import { StoreParams } from "@root/common.types";
 
 
 export default async function DashboardPage({

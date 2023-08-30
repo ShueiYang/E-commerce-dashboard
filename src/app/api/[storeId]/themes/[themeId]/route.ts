@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { StoreParams, ThemeParams } from "@root/common.type";
+import { StoreParams, ThemeParams } from "@root/common.types";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
 import { themeFormSchema } from "@/validator/schemaValidation";

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CategoryParams } from "@root/common.type";
+import { CategoryParams } from "@root/common.types";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
 import { categoryFormSchema } from "@/validator/schemaValidation";

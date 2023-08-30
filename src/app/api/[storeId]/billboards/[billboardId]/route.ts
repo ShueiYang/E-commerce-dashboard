@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { BillboardParams, StoreParams } from "@root/common.type";
+import { BillboardParams, StoreParams } from "@root/common.types";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/prisma";
 import { updateBillboardSchema } from "@/validator/schemaValidation";

@@ -1,4 +1,4 @@
-import { ThemeParams } from "@root/common.type";
+import { ThemeParams } from "@root/common.types";
 import { prisma } from "@/lib/prisma";
 import ThemeForm from "@/components/forms/ThemeForm";
 

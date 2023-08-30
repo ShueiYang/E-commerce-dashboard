@@ -1,4 +1,4 @@
-import { BillboardParams } from "@root/common.type";
+import { BillboardParams } from "@root/common.types";
 import { prisma } from "@/lib/prisma";
 import BillboardForm from "@/components/forms/BillboardForm";
 

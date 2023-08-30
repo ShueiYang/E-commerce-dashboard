@@ -1,4 +1,4 @@
-import { StoreParams } from "@root/common.type";
+import { StoreParams } from "@root/common.types";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { storeFormSchema } from "@/validator/schemaValidation";

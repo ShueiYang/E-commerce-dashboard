@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 
 import { Prisma } from "@prisma/client";
-import { StoreParams } from "@root/common.type";
+import { StoreParams } from "@root/common.types";
 import { CategorieColumn } from "@/components/categoriesPage/Columns";
 import CategoryClient from "@/components/categoriesPage/CategoryClient";
 
